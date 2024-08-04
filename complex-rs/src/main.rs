@@ -2,7 +2,6 @@ mod complex;
 mod operations;
 
 use complex::Complex;
-use operations::*;
 
 fn main() {
     let z1 = Complex::new(1.0, 2.0);

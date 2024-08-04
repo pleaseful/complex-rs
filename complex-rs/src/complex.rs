@@ -1,4 +1,4 @@
-use std::ops::Div;
+use std::ops::{Add, Sub, Mul, Div};
 
 #[derive(Debug, Clone)]
 pub struct Complex {
@@ -72,22 +72,7 @@ impl Complex {
         Complex::new(self.r / denominator, -self.i / denominator)
     }
 
-
-
     pub fn tanh(&self) -> Complex {
         self.sinh().div(self.cosh())
     }
-
-    pub fn division_alternative(&self, other: &Complex) -> Complex {
-        let reciprocal = other.reciprocal();
-self.clone() * reciprocal
-    }
-
-
-    pub fn log(&self) -> Complex {
-        let r = self.abs().ln();
-        let theta = self.arg();
-        Complex::new(r, theta)
-    }
-
 }
