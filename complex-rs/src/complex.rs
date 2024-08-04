@@ -1,4 +1,4 @@
-use std::ops::{Add, Sub, Mul, Div};
+use std::ops::Div;
 
 #[derive(Debug, Clone)]
 pub struct Complex {
@@ -52,17 +52,42 @@ impl Complex {
         self.sin().div(self.cos())
     }
 
+
     pub fn sinh(&self) -> Complex {
-        let exp_plus = (self.exp().r + self.conj().exp().r) / 2.0;
-        Complex::new(exp_plus, 0.0)
+        // Using formula sinh(z) = (e^z - e^(-z)) / 2
+        let e_pos = self.exp();
+        let e_neg = self.conj().exp(); // e^(-z) can be gotten by taking the exp of the conjugate
+        Complex::new((e_pos.r - e_neg.r) / 2.0, (e_pos.i - e_neg.i) / 2.0)
     }
 
     pub fn cosh(&self) -> Complex {
-        let exp_plus = (self.exp().r + self.conj().exp().r) / 2.0;
-        Complex::new(exp_plus, 0.0)
+        // Using formula cosh(z) = (e^z + e^(-z)) / 2
+        let e_pos = self.exp();
+        let e_neg = self.conj().exp();
+        Complex::new((e_pos.r + e_neg.r) / 2.0, (e_pos.i + e_neg.i) / 2.0)
     }
+
+    pub fn reciprocal(&self) -> Complex {
+        let denominator = self.r.powi(2) + self.i.powi(2);
+        Complex::new(self.r / denominator, -self.i / denominator)
+    }
+
+
 
     pub fn tanh(&self) -> Complex {
         self.sinh().div(self.cosh())
     }
+
+    pub fn division_alternative(&self, other: &Complex) -> Complex {
+        let reciprocal = other.reciprocal();
+self.clone() * reciprocal
+    }
+
+
+    pub fn log(&self) -> Complex {
+        let r = self.abs().ln();
+        let theta = self.arg();
+        Complex::new(r, theta)
+    }
+
 }
